@@ -5,7 +5,7 @@ use Google\Auth\Credentials\ServiceAccountCredentials;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
 
-// Credenciales
+// Path Credenciales
 $credentialsPath = 'test-c456a-7d79783f6d97.json';
 
 // Alcance necesario para FCM
@@ -34,6 +34,7 @@ try {
             // El token ha expirado crea uno nuevo y actualiza el archivo
             $newAccessToken = getAccessToken($credentialsPath, $scopes);
             $newAccessToken['expires_at'] = time() + $tokeExpiration;
+            // Guardar el token en el archivo token.json
             file_put_contents($tokenFile, json_encode($newAccessToken));
             $accessToken = $newAccessToken['access_token'];
         } else {
@@ -44,6 +45,7 @@ try {
         // Archivo no existe, crear uno nuevo y actualiza el token
         $newAccessToken = getAccessToken($credentialsPath, $scopes);
         $newAccessToken['expires_at'] = time() + $tokeExpiration;
+        // Guardar el token en el archivo token.json
         file_put_contents($tokenFile, json_encode($newAccessToken));
         $accessToken = $newAccessToken['access_token'];
     }
